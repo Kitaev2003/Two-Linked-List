@@ -1,18 +1,20 @@
+#include "List_Headers.h"
+
 void List_Dump(List_Struct list)
 {
-	int i = 0;
+	size_t i = 0;
 	
 	printf("\nThis is Dump List\n\n");
 	
 	printf("list.free = %d\nlist.tail = %d\nlist.head = %d\nlist.size = %ld\n\n", list.free, list.tail, list.head, list.size);
 	
-	printf("|DATA[%2d] : %3X| NEXT : %3X| PREPOS : %3X\n", i, list.elem[i].data, list.elem[i].next, list.elem[i].prev);
+	printf("|DATA[%2ld] : %3X| NEXT : %3X| PREPOS : %3X\n", i, list.elem[i].data, list.elem[i].next, list.elem[i].prev);
 	
 	i++;
 	
 	while(i <= (list.size+1))
 	{
-		printf("|DATA[%2d] : %3d| NEXT : %3d| PREPOS : %3d\n", i, list.elem[i].data, list.elem[i].next, list.elem[i].prev);
+		printf("|DATA[%2ld] : %3d| NEXT : %3d| PREPOS : %3d\n", i, list.elem[i].data, list.elem[i].next, list.elem[i].prev);
 		
 		i++;
 	}
@@ -36,24 +38,21 @@ void Graphviz_List(List_Struct list)
 	
 	Check_Open_File(GRAF);  
 	
-	int i = 0;
+	size_t i = 0;
 	
 	fprintf(GRAF, "graph graphname \n {\n");
 	fprintf(GRAF, "node [shape=record, color = \"red\"];");
 	fprintf(GRAF, "		//Описание блоков графа\n");
 	
-	while(i <= (list.size+5))
+	
+	while(i <= list.size)
 	{ 
-		if(i == 0)
-		{
-			fprintf(GRAF, "		%d[label=\"{%d}|{Addres = %d| Data = %X|Next = %X| Prev = %X}\"];\n", i, i, i, list.elem[i].data, list.elem[i].next, list.elem[i].prev);
-			
-			i++;
-			
-			continue;
-		}
 		
-		fprintf(GRAF, "		%d[label=\"{%d}|{Addres = %d| Data = %d|Next = %d| Prev = %d}\"];\n", i, i, i, list.elem[i].data, list.elem[i].next, list.elem[i].prev);
+		fprintf(GRAF, "		%ld[label=\"{%ld}|{Addres = %ld| Data = %d|Next = %d| Prev = %d}\"];\n", i, i, i, list.elem[list.tail].data, list.elem[list.tail].next, list.elem[list.tail].prev);
+	
+		int next_tail = list.elem[list.tail].next;
+	
+		list.tail = next_tail;
 		
 		i++; 
 	} 
@@ -64,9 +63,9 @@ void Graphviz_List(List_Struct list)
 	
 	fprintf(GRAF, "//Связь блоков\n");
 
-	while(i <= (list.size+5))
+	while(i <= (list.size))
 	{
-		fprintf(GRAF, "		%d -- %d [arrowhead = diamond]; \n", i, i+1) ;
+		fprintf(GRAF, "		%ld -- %ld [arrowhead = diamond]; \n", i, i+1) ;
 		
 		i++;
 	} 

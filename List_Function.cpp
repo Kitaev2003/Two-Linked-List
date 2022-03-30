@@ -1,9 +1,12 @@
+#include "List_Headers.h"
+
+
 void List_Construct(List_Struct* list)
 {
 	int i = -1;
 	int k =  1;	
 	
-	list->elem = (Element*) malloc(SIZE_LIST * 3 * sizeof(int*));
+	list->elem = (Element*) calloc(SIZE_LIST, sizeof(Element));
 	
 	list->head = 0;
 	
@@ -136,18 +139,18 @@ void List_Delete(List_Struct* list, int num)
 	
 	list->elem[num].next = -1*(list->free);
 	
-	list->elem[num].prev = -1*(list->free);
+	list->elem[num].prev = -1*num;
 	
-	list->elem[num].data = -1*(list->free);
+	list->elem[num].data = -1;
 
 	list->free = num;
 }
 
 void List_Linear(List_Struct* list)
 {
-	printf("Warning: The List_Linear function slows down the list greatly, we recommend that you stop using it, otherwise enter: \"List_Linear\": ");
+	printf("Warning: The List_Linear function slows down the list greatly, we recommend you stop using it, otherwise enter: \"List_Linear\": ");
 	
-	char str[15]; 
+	char str[15] {}; 
 	scanf("%s", str);
 	
 	if (strcmp(str, "List_Linear") != 0)
@@ -156,8 +159,8 @@ void List_Linear(List_Struct* list)
 		exit(1);
 	}
 	
-	int i = 1;
-	int k = -1;
+	size_t i = 1;
+	int k = -1*(list->size);
 	int val = 0;
 
 	while(i <= list->size)
@@ -180,12 +183,10 @@ void List_Linear(List_Struct* list)
 		i++;
 	}
 	
-	list->elem[i-1].next = CIRCLE;
-	
 	while(i<=SIZE_LIST)
 	{
 		list->elem[i].data = -1;
-		list->elem[i].prev = k;	
+		list->elem[i].prev = k - 1;	
 		list->elem[i].next = k;
 		k--;
 		i++;

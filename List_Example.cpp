@@ -12,7 +12,6 @@ int main()
 	
 	List_Push_Front(&list, 18);
 
-	
 	while(i!= 20)// Заполняем список рандомными значениями
 	{
 		List_Insert(&list, i, val);
@@ -33,11 +32,13 @@ int main()
 	
 	List_Insert(&list, 3, 34);
 	
-	//List_Linear(&list);
-	
 	List_Dump(list);
 	
 	Graphviz_List(list);
+	
+	List_Linear(&list);
+	
+	List_Dump(list);
 	
 	List_Free(&list);
 	
